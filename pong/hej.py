@@ -6,8 +6,10 @@ import signal
 def init():
     global scene
     global run
+    global pause
     scene = canvas(width=900, height=500, autoscale=False)
     run = True
+    pause = False
 
     init_misc()
     init_objects()
@@ -18,6 +20,10 @@ def exit():
     global run
     run = False
     os.kill(os.getpid(), signal.SIGTERM)
+
+
+def pause():
+    pass
 
 
 def init_misc():
@@ -71,7 +77,10 @@ if __name__ == "__main__":
     try:
         while run:
             rate(100)
-            main()
+            if pause:
+                pause()
+            else:
+                main()
 
     except:
         print("ERROR")
