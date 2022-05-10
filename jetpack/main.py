@@ -7,6 +7,7 @@ from settings import *
 scene = canvas(width=1500, height=800, autoscale=False)
 camera_obj = box(pos=vector(0, 0, 0), size=vector(1, 1, 1), visible=False)
 scene.camera.follow(camera_obj)
+lamp = local_light(pos=camera_obj.pos, color=color.red)
 
 
 def init():
@@ -15,9 +16,10 @@ def init():
     global player
     global keys_pressed
     global time_text
-    global s1
-    global s2
-
+    global active_level
+    global levels
+    active_level = 0
+    levels = [0, 0, 0, 0, 0]
     pause_text = False
 
     plane = {
@@ -31,30 +33,35 @@ def init():
         0.7, 1.4, 0.7), color=color.purple, acc=vector(0, 0, 0), vel=vector(0, 0, 0), make_trail=False, trail_type="curve", interval=5, retain=10, trail_color=color.orange)
     keys_pressed = wtext(pos=scene.caption_anchor)
     time_text = wtext(pos=scene.caption_anchor)
-    s1 = False
-    s2 = False
 
 
-def levelGen(LVL, player_pos):
-    player_pos = int(player_pos)
-
+def levelGen(LVL, player_pos, lengths):
     for i in plane.values():
-        i.size.z = LENGTHS[LVL-1]
-        i.pos.z = player_pos-LENGTHS[LVL-1]/2
+        i.size.z = lengths[LVL-1]
+        i.pos.z = player_pos-lengths[LVL-1]/2
 
     obstacles = []
-    for i in range(-player_pos, -player_pos + LENGTHS[LVL-1], 8):
+    for i in range(int(-player_pos), int(-player_pos + lengths[LVL-1]), 8):
         obstacles.append(sphere(pos=vector(randint(plane["left"].pos.x+LVL, plane["right"].pos.x-LVL), randint(
-            plane["down"].pos.y+LVL, plane["up"].pos.y-LVL), -i), radius=LVL, opacity=0.1, color=color.red))
+            plane["down"].pos.y+LVL, plane["up"].pos.y-LVL), -i), radius=LVL, opacity=0.5, color=color.red))
 
 
-def changeLevel():
-    pass
+def changeLevel(player_pos, lengths):
+    # active_level = 0
+    # levels = [0,0,0,0,0]
+    # player_pos = 0
+
+    for i, n in enumerate(levels):
+        if (lengths[i] < -player_pos < lengths[i+1]) and (not n):
+            print(levels)
+            levels[i] = 1
+            levelGen(i+1, player_pos, lengths)
+            continue
 
 
-def pause(pause_text):
+def pause(pause_text, player_pos_z):
     if not pause_text:
-        pause_text = text(pos=vector(-10, 0, player.pos.z),
+        pause_text = text(pos=vector(-10, 0, player_pos_z),
                           text="Press any button to continue")
     scene.waitfor('keydown')
     pause_text.visible = False
@@ -109,23 +116,19 @@ def fly():
     else:
         player.vel.x = player.vel.x*0.994
 
-
-def move(v):
-    player.vel.z = -v
+    player.vel.z = -0.5
 
 
 def moveCamera(pos):
     camera_obj.pos.z = pos.z
     camera_obj.pos.x = pos.x*0.4
+    lamp.pos.z = camera_obj.pos.z
 
 
 def main():
+    changeLevel(player.pos.z, lengths)
     detectBounds()
     fly()
-    if s1:
-        move(0.5)
-    if s2:
-        move(0.2)
 
     player.pos += player.vel
     moveCamera(player.pos)
@@ -137,32 +140,19 @@ if __name__ == "__main__":
         start = text(text="Press any key to start", pos=vector(0, 5, 0))
         scene.waitfor("keydown")
         start.visible = False
-        t0 = time()
-        t = t0
 
+        a = wtext(text=int(player.pos.z))
         while True:
             rate(100)
 
-            t1 = time() - t0
-
-            '''
-                Tiden uppdaterades för ofta vilket orsakade lagg
-            '''
-            if int(t) < int(t1):
-                time_text.text = str(int(t1))
-            t = t1
             k = keysdown()
             keys_pressed.text = k
-            if not s1:
-                levelGen(1, player.pos.z)
-                s1 = True
-            if (player.pos.z < -LENGTHS[0]) and (not s2):
-                levelGen(2, player.pos.z)
-                s2 = True
 
             if 'esc' in k:
-                pause(pause_text)
+                pause(pause_text, player.pos.z)
+
             main()
+            a.text = int(player.pos.z)
 
     except Exception as e:
         print(e)
