@@ -16,4 +16,4 @@ There are several customizable settings in the settings.py file. You can change:
 * Obstacle size on each level
 
 ## Flowchart
-![Flowchart](https://github.com/AbstractNucleus/VPython/blob/main/flowchart.png?raw=true)
+![Flowchart](https://github.com/AbstractNucleus/VPython/blob/main/flowchart.drawio.png?raw=true)
