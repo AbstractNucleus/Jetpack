@@ -1,28 +1,16 @@
-# Main settings
-
-
-'''
-
-    Obstacle settings
-
-'''
-# The color of the obstacles
-#obstacle_color = color.red
-
-
 '''
 
     Level settings
 
 '''
 # Number of levels
-LEVELS = 5
+LEVELS = 8
 
 # Level lengths (add corresponding amount to number of levels)
-lengths = [400, 200, 200, 200, 200]
+lengths = [200, 100, 100, 100, 100, 100, 100, 100]
 
 # The player speed on each level
-velocities = []
+velocities = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
 
-# If there is light in the level (1 for on; 0 for off)
-lights = [1, 1, 1, 1, 1]
+# Obstacle sizes on each level
+sizes = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5]
