@@ -1,4 +1,4 @@
-# VPython
+# Jetpack
 
 ## How to
 Avoid the red spheres and make it until the end to win
