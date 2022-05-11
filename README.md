@@ -23,4 +23,6 @@ There are several customizable settings in the settings.py file. You can change:
 
 ## Flowchart
 
-![Flowchart](https://github.com/AbstractNucleus/VPython/blob/main/flowchart.drawio.png?raw=true)
+### Main loop
+
+![Flowchart](https://github.com/AbstractNucleus/Jetpack/blob/main/flowchart.drawio.png?raw=true)
