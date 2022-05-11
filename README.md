@@ -14,3 +14,6 @@ There are several customizable settings in the settings.py file. You can change:
 * The length of each level
 * The player velocity on each level
 * Obstacle size on each level
+
+## Flowchart
+![alt text](https://github.com/AbstractNucleus/VPython/blob/main/flowchart.png?raw=true)
