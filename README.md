@@ -25,4 +25,4 @@ There are several customizable settings in the settings.py file. You can change:
 
 ### Main loop
 
-![Flowchart](https://github.com/AbstractNucleus/Jetpack/blob/main/flowchart.drawio.png?raw=true)
+![Flowchart](https://github.com/AbstractNucleus/Jetpack/blob/main/flowchart.drawio.png)
