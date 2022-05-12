@@ -1,9 +1,9 @@
-from vpython import canvas, box, vector, local_light, color, text, keysdown, rate
+from vpython import canvas, box, vector, local_light, color, text, keysdown, rate, sphere
 
 from settings import *
 from levels import changeLevel
-from movement import move, moveCamera
-from colissions import detectBounds
+from movement import move
+from colissions import detectBounds, detectColission
 
 
 
@@ -20,13 +20,15 @@ def init():
         "right": box(pos=vector(15, 0, 0), size=vector(0.2, 18, 0), color=color.gray(0.1))
     }
 
-    player = box(pos=vector(0, 0, 0), size=vector(0.7, 1.4, 0.7), color=color.purple, acc=vector(0, 0, 0), vel=vector(0, 0, 0), make_trail=False, trail_type="curve", interval=5, retain=10, trail_color=color.orange)
+    player = sphere(pos=vector(0, 0, 0), radius=0.5, color=color.purple, acc=vector(0, 0, 0), vel=vector(0, 0, 0), make_trail=False, trail_type="curve", interval=5, retain=10, trail_color=color.orange)
 
     start = text(text="Press any key to start", pos=vector(0, 5, 0))
     scene.waitfor("keydown")
     start.visible = False
 
-    return scene, player, camera_obj, lamp, planes
+    obstacles = []
+
+    return scene, player, camera_obj, lamp, planes, obstacles
 
 
 def pause(player_pos_z):
@@ -41,16 +43,17 @@ def game():
     if 'esc' in k:
         pause(player.pos.z)
 
-    changeLevel(player.pos.z, lengths, LEVELS, planes, sizes)
+    changeLevel(player.pos.z, lengths, LEVELS, planes, sizes, obstacles)
 
     detectBounds(player, planes)
+    detectColission(player, obstacles)
 
 
     move(player, k, camera_obj, lamp)
 
 
 if __name__ == "__main__":
-    scene, player, camera_obj, lamp, planes = init()
+    scene, player, camera_obj, lamp, planes, obstacles = init()
     try:
         while True:
             rate(100)
