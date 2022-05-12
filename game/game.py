@@ -20,7 +20,7 @@ def init():
         "right": box(pos=vector(15, 0, 0), size=vector(0.2, 18, 0), color=color.gray(0.1))
     }
 
-    player = sphere(pos=vector(0, 0, 0), radius=0.5, color=color.purple, acc=vector(0, 0, 0), vel=vector(0, 0, 0), make_trail=False, trail_type="curve", interval=5, retain=10, trail_color=color.orange)
+    player = sphere(pos=vector(0, 0, 0), radius=1, color=color.purple, acc=vector(0, 0, 0), vel=vector(0, 0, 0), make_trail=False, trail_type="curve", interval=5, retain=10, trail_color=color.orange)
 
     start = text(text="Press any key to start", pos=vector(0, 5, 0))
     scene.waitfor("keydown")

@@ -9,7 +9,7 @@ def levelGen(LVL, player_pos, lengths, planes, sizes, obstacles):
 
     size = sizes[LVL-1]
 
-    for i in range(int(-player_pos), int(-player_pos + lengths[LVL-1]), 8):
+    for i in range(int(-player_pos), int(-player_pos + lengths[LVL-1]), 4):
         obstacles.append(sphere(pos=vector(uniform(planes["left"].pos.x+size, planes["right"].pos.x-size), uniform(
             planes["down"].pos.y+size, planes["up"].pos.y-size), -i), radius=size, opacity=0.5, color=color.red))
 
