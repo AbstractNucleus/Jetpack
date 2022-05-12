@@ -61,7 +61,6 @@ def reset():
 
 
 
-
 if __name__ == "__main__":
     player, camera_obj, lamp, planes, obstacles, levels, start = init()
     try:
