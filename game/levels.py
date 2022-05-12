@@ -14,14 +14,8 @@ def levelGen(LVL, player_pos, lengths, planes, sizes, obstacles):
             planes["down"].pos.y+size, planes["up"].pos.y-size), -i), radius=size, opacity=0.5, color=color.red))
 
 
-def changeLevel(player_pos, lengths, LEVELS, planes, sizes, obstacles):
+def changeLevel(player_pos, lengths, LEVELS, planes, sizes, obstacles, levels, scene):
     total_length = sum(lengths[:LEVELS-1])
-
-    global levels
-    try:
-        a = levels
-    except:
-        levels = [0 for i in range(LEVELS)]
 
     if not levels[0]:
         levels[0] = 1
@@ -33,9 +27,11 @@ def changeLevel(player_pos, lengths, LEVELS, planes, sizes, obstacles):
             passed_length += lengths[i]
 
     if total_length < -player_pos:
-        end = text(pos=vector(0, 5, player_pos), text="You Won!!!")
-        while True:
-            j = "stop"
+        end = text(pos=vector(0, 5, player_pos), text="You Won!!! \nPress r button to restart", align="center")
+        scene.waitfor("keydown")
+        end.visible = False
+
+        return end
 
     for i, n in enumerate(levels):
         if (passed_length < -player_pos) and (-player_pos < passed_length+lengths[i]) and (not n):

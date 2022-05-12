@@ -6,9 +6,9 @@ from movement import move
 from colissions import detectBounds, detectColission
 
 
+scene = canvas(width=1500, height=800, autoscale=False)
 
 def init():
-    scene = canvas(width=1500, height=800, autoscale=False)
     camera_obj = box(pos=vector(0, 0, 0), visible=False)
     scene.camera.follow(camera_obj)
     lamp = local_light(pos=camera_obj.pos, color=color.red)
@@ -28,7 +28,9 @@ def init():
 
     obstacles = []
 
-    return scene, player, camera_obj, lamp, planes, obstacles
+    levels = [0 for i in range(LEVELS)]
+
+    return player, camera_obj, lamp, planes, obstacles, levels, start
 
 
 def pause(player_pos_z):
@@ -36,28 +38,56 @@ def pause(player_pos_z):
     scene.waitfor('keydown')
     pause_text.visible = False
 
+def reset():
+    player.pos = vector(0,0,0)
+    camera_obj.pos = player.pos
+    lamp.pos = camera_obj.pos
 
-def game():
-    k = keysdown()
+    planes["up"].pos = vector(0, 9, 0)
+    planes["down"].pos = vector(0, -9, 0)
+    planes["left"].pos = vector(-15, 0, 0)
+    planes["right"].pos = vector(15, 0, 0)
 
-    if 'esc' in k:
-        pause(player.pos.z)
+    levels = [0 for i in range(LEVELS)]
 
-    changeLevel(player.pos.z, lengths, LEVELS, planes, sizes, obstacles)
+    for i in obstacles:
+        i.visible = False
 
-    detectBounds(player, planes)
-    detectColission(player, obstacles)
+    start.visible = True
+    scene.waitfor("keydown")
+    start.visible = False
+
+    return player, camera_obj, lamp, planes, obstacles, levels, start
 
 
-    move(player, k, camera_obj, lamp)
 
 
 if __name__ == "__main__":
-    scene, player, camera_obj, lamp, planes, obstacles = init()
+    player, camera_obj, lamp, planes, obstacles, levels, start = init()
     try:
         while True:
-            rate(100)
-            game()
+            k = keysdown()
+            while True:
+                rate(100)
+
+                k = keysdown()
+                if 'esc' in k:
+                    pause(player.pos.z)
+
+                detectBounds(player, planes)
+                colission = detectColission(player, obstacles, scene)
+                win = changeLevel(player.pos.z, lengths, LEVELS, planes, sizes, obstacles, levels, scene)
+
+                if colission or win:
+                    break
+
+                move(player, k, camera_obj, lamp)
+
+
+            if "r" in k:
+                player, camera_obj, lamp, planes, obstacles, levels, start = reset()
+
+
 
     except Exception as e:
         print(e)
