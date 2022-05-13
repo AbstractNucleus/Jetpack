@@ -66,7 +66,7 @@ if __name__ == "__main__":
     try:
         while True:
             while True:
-                rate(60)
+                rate(100)
 
                 k = keysdown()
                 if 'esc' in k:
