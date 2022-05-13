@@ -1,5 +1,5 @@
 from random import uniform
-from vpython import sphere, vector, color, text
+from vpython import sphere, vector, color, label
 
 
 def levelGen(LVL, player_pos, lengths, planes, sizes, obstacles):
@@ -27,7 +27,8 @@ def changeLevel(player_pos, lengths, LEVELS, planes, sizes, obstacles, levels, s
             passed_length += lengths[i]
 
     if total_length < -player_pos:
-        end = text(pos=vector(0, 5, player_pos), text="You Won!!! \nPress r button to restart", align="center")
+        end = label(pos=vector(0, 5, player_pos), text="You Won!!! \nPress any button to restart", align="center")
+        sleep(1)
         scene.waitfor("keydown")
         end.visible = False
 

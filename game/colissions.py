@@ -1,5 +1,6 @@
 from math import sqrt
-from vpython import text, vector
+from vpython import label, vector
+from time import sleep
 
 def detectBounds(player, planes):
     # Left plane
@@ -32,7 +33,8 @@ def detectColission(player, obstacles, scene):
         r1, r2 = player.radius, obj.radius
 
         if sqrt((x2-x1)**2 + (y2-y1)**2 + (z2-z1)**2) < (r1 + r2) and obj.visible:
-            end = text(pos=vector(0,5,z1), text="You Lose. \nPress r button to restart", align="center")
+            end = label(pos=vector(0,5,z1), text="You Lose. \nPress any button to restart", align="center")
+            sleep(1)
             scene.waitfor("keydown")
             end.visible = False
             return end

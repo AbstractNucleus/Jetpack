@@ -1,4 +1,4 @@
-from vpython import canvas, box, vector, local_light, color, text, keysdown, rate, sphere
+from vpython import canvas, label, box, vector, local_light, color, keysdown, rate, sphere
 
 from settings import *
 from levels import changeLevel
@@ -22,7 +22,7 @@ def init():
 
     player = sphere(pos=vector(0, 0, 0), radius=1, color=color.purple, acc=vector(0, 0, 0), vel=vector(0, 0, 0), make_trail=False, trail_type="curve", interval=5, retain=10, trail_color=color.orange)
 
-    start = text(text="Press any key to start", pos=vector(0, 5, 0))
+    start = label(text="Press any key to start", pos=vector(0, 5, 0))
     scene.waitfor("keydown")
     start.visible = False
 
@@ -34,7 +34,7 @@ def init():
 
 
 def pause(player_pos_z):
-    pause_text = text(pos=vector(-10, 0, player_pos_z), text="Press any button to continue")
+    pause_text = label(pos=vector(-10, 0, player_pos_z), text="Press any button to continue")
     scene.waitfor('keydown')
     pause_text.visible = False
 
@@ -65,9 +65,8 @@ if __name__ == "__main__":
     player, camera_obj, lamp, planes, obstacles, levels, start = init()
     try:
         while True:
-            k = keysdown()
             while True:
-                rate(100)
+                rate(60)
 
                 k = keysdown()
                 if 'esc' in k:
@@ -82,11 +81,7 @@ if __name__ == "__main__":
 
                 move(player, k, camera_obj, lamp)
 
-
-            if "r" in k:
-                player, camera_obj, lamp, planes, obstacles, levels, start = reset()
-
-
+            player, camera_obj, lamp, planes, obstacles, levels, start = reset()
 
     except Exception as e:
         raise(e)
