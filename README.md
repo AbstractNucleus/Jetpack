@@ -2,7 +2,7 @@
 
 ## How to
 
-Avoid the red spheres and make it until the end to win
+To run the game simply run *run.py*
 
 ## Controls
 

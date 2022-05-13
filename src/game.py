@@ -1,9 +1,9 @@
 from vpython import canvas, label, box, vector, local_light, color, keysdown, rate, sphere
 
-from settings import *
-from levels import changeLevel
-from movement import move
-from colissions import detectBounds, detectColission
+from src.settings import *
+from src.levels import changeLevel
+from src.movement import move
+from src.colissions import detectBounds, detectColission
 
 
 scene = canvas(width=1500, height=800, autoscale=False)
@@ -61,27 +61,27 @@ def reset():
 
 
 
-if __name__ == "__main__":
-    player, camera_obj, lamp, planes, obstacles, levels, start = init()
-    try:
+
+player, camera_obj, lamp, planes, obstacles, levels, start = init()
+try:
+    while True:
         while True:
-            while True:
-                rate(100)
+            rate(100)
 
-                k = keysdown()
-                if 'esc' in k:
-                    pause(player.pos.z)
+            k = keysdown()
+            if 'esc' in k:
+                pause(player.pos.z)
 
-                detectBounds(player, planes)
-                colission = detectColission(player, obstacles, scene)
-                win = changeLevel(player.pos.z, lengths, LEVELS, planes, sizes, obstacles, levels, scene)
+            detectBounds(player, planes)
+            colission = detectColission(player, obstacles, scene)
+            win = changeLevel(player.pos.z, lengths, LEVELS, planes, sizes, obstacles, levels, scene)
 
-                if colission or win:
-                    break
+            if colission or win:
+                break
 
-                move(player, k, camera_obj, lamp)
+            move(player, k, camera_obj, lamp)
 
-            player, camera_obj, lamp, planes, obstacles, levels, start = reset()
+        player, camera_obj, lamp, planes, obstacles, levels, start = reset()
 
-    except Exception as e:
-        raise(e)
+except Exception as e:
+    raise(e)
